@@ -20,7 +20,7 @@ LeptonThread::~LeptonThread() {
 void LeptonThread::run()
 {
 
-	int resetPi = 0;
+
 
 	//create the initial image
 	myImage = QImage(80, 60, QImage::Format_RGB888);
@@ -28,8 +28,8 @@ void LeptonThread::run()
 	//open spi port
 	SpiOpenPort(0);
 
-	std::fflush(spi_cs0_fd);
-	
+	fflush(spi_cs0_fd);
+
 	while(true) {
 
 		//read data packets from lepton over SPI
