@@ -46,7 +46,7 @@ int main( int argc, char **argv )
 	std::string command;
 	command = "echo \"16\" > /sys/class/gpio/export";
 	system(command.c_str());
-	command = "echo \"out\" > /sys/class/gpio/gpio23/direction";
+	command = "echo \"out\" > /sys/class/gpio/gpio26/direction";
 	system(command.c_str());
 	command = "echo \"1\" > /sys/class/gpio16/value";
 	system(command.c_str());
