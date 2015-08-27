@@ -8,6 +8,8 @@
 #include <QtDebug>
 #include <QString>
 #include <QPushButton>
+#include <string>
+#include <unistd.h>
 
 #include "LeptonThread.h"
 #include "MyLabel.h"
@@ -39,6 +41,18 @@ int main( int argc, char **argv )
 	//create a FFC button
 	QPushButton *button1 = new QPushButton("Perform FFC", myWidget);
 	button1->setGeometry(320/2-50, 290-35, 100, 30);
+
+	//code that restarts the PI
+	string command;
+	command = "echo \"16\" > /sys/class/gpio/export";
+	system(command.c_str());
+	command = "echo \"out\" > /sys/class/gpio/gpio23/direction";
+	system(command.c_str());
+	command = "echo \"1\" > /sys/class/gpio16/value";
+	system(command.c_str());
+	usleep(2000000);
+	command = "echo \"0\" > /sys/class/gpio16/value";
+	system(command.c_str());
 
 	//create a thread to gather SPI data
 	//when the thread emits updateImage, the label should update its image accordingly
