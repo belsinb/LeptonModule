@@ -19,11 +19,21 @@ LeptonThread::~LeptonThread() {
 
 void LeptonThread::run()
 {
+
+	int resetPi = 0;
+
 	//create the initial image
 	myImage = QImage(80, 60, QImage::Format_RGB888);
 
 	//open spi port
 	SpiOpenPort(0);
+	usleep(2000000);
+
+	if(resetPI ==1){	
+			SpiClosePort(0);
+			usleep(2000000);
+			SpiOpenPort(0);
+		}
 
 	while(true) {
 
