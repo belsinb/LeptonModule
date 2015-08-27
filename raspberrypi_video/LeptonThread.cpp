@@ -29,10 +29,11 @@ void LeptonThread::run()
 	SpiOpenPort(0);
 	usleep(2000000);
 
-	if(resetPI ==1){	
+	if(resetPi == 0){	
 			SpiClosePort(0);
 			usleep(2000000);
 			SpiOpenPort(0);
+			resetPi = 1;
 		}
 
 	while(true) {
