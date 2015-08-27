@@ -3,7 +3,7 @@
 #include "Palettes.h"
 #include "SPI.h"
 #include "Lepton_I2C.h"
-
+#include <stdio.h>
 #define PACKET_SIZE 164
 #define PACKET_SIZE_UINT16 (PACKET_SIZE/2)
 #define PACKETS_PER_FRAME 60
@@ -27,9 +27,9 @@ void LeptonThread::run()
 
 	//open spi port
 	SpiOpenPort(0);
-	usleep(2000000);
 
-
+	std::fflush(spi_cs0_fd);
+	
 	while(true) {
 
 		//read data packets from lepton over SPI
@@ -37,13 +37,6 @@ void LeptonThread::run()
 		for(int j=0;j<PACKETS_PER_FRAME;j++) {
 			//if it's a drop packet, reset j to 0, set to -1 so he'll be at 0 again loop
 			read(spi_cs0_fd, result+sizeof(uint8_t)*PACKET_SIZE*j, sizeof(uint8_t)*PACKET_SIZE);
-			if(resetPi == 2000){
-				qDebug() << "Reseting SPI connection..";	
-				SpiClosePort(0);
-				usleep(2000000);
-				SpiOpenPort(0);
-				resetPi = 1;
-			}
 			int packetNumber = result[j*PACKET_SIZE+1];
 			if(packetNumber != j) {
 				j = -1;
@@ -56,10 +49,6 @@ void LeptonThread::run()
 					usleep(750000);
 					SpiOpenPort(0);
 				}
-			}
-			if(resetPi < 2000)
-			{
-				resetPi++;
 			}
 		}
 		if(resets >= 30) {
