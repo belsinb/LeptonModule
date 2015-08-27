@@ -37,7 +37,8 @@ void LeptonThread::run()
 		for(int j=0;j<PACKETS_PER_FRAME;j++) {
 			//if it's a drop packet, reset j to 0, set to -1 so he'll be at 0 again loop
 			read(spi_cs0_fd, result+sizeof(uint8_t)*PACKET_SIZE*j, sizeof(uint8_t)*PACKET_SIZE);
-			if(resetPi == 0){	
+			if(resetPi == 2000){
+				qDebug() << "Reseting SPI connection..";	
 				SpiClosePort(0);
 				usleep(2000000);
 				SpiOpenPort(0);
@@ -55,6 +56,10 @@ void LeptonThread::run()
 					usleep(750000);
 					SpiOpenPort(0);
 				}
+			}
+			if(resetPi < 2000)
+			{
+				resetPi++;
 			}
 		}
 		if(resets >= 30) {
