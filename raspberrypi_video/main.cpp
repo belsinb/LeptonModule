@@ -43,7 +43,7 @@ int main( int argc, char **argv )
 	button1->setGeometry(320/2-50, 290-35, 100, 30);
 
 	//code that restarts the PI
-	string command;
+	std::string command;
 	command = "echo \"16\" > /sys/class/gpio/export";
 	system(command.c_str());
 	command = "echo \"out\" > /sys/class/gpio/gpio23/direction";
